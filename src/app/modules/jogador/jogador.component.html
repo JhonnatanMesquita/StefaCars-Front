@@ -1,0 +1,80 @@
+<p-toast></p-toast>
+
+<div class="card">
+  <p-table #dt [value]="jogadores" [rows]="5" [paginator]="true" [rowHover]="true" dataKey="id"
+           [globalFilterFields]="['nickname']" [(selection)]="jogadoresSelecionados"
+           currentPageReportTemplate="Mostrando {first} a {last} do total de {totalRecords} jogadores"
+           [showCurrentPageReport]="true" styleClass=""
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Gerenciar Jogadores</h5>
+        <div>
+          <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2"
+                  (click)="novoJogador()"></button>
+          <button pButton pRipple [label]="'Deletar'" icon="pi pi-trash" class="p-button-danger mr-2"
+                  (click)="deletarJogadorSelecionado()" [disabled]="!jogadoresSelecionados || !jogadoresSelecionados.length"></button>
+          <span class="p-input-icon-left mr-2">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                     placeholder="Search..."/>
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+        <th pSortableColumn="nickname">Nick<p-sortIcon field="nickname"></p-sortIcon></th>
+        <th>Foto</th>
+        <th pSortableColumn="saldo">Saldo<p-sortIcon field="saldo"></p-sortIcon></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-jogador>
+      <tr>
+        <td><p-tableCheckbox [value]="jogador"></p-tableCheckbox></td>
+        <td>{{jogador.nickname}}</td>
+        <td><img [src]="jogador.carro.foto" [alt]="jogador.carro.nome" width="80" class="shadow-4"/></td>
+        <td>{{jogador.saldo | currency:'BRL'}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-directions" title="Batalhar contra este jogador"
+                  class="p-button-rounded p-button-help mr-2"
+                  (click)="batalharComJogador(jogador)"></button>
+          <button pButton pRipple icon="pi pi-pencil" title="Editar este jogador"
+                  class="p-button-rounded p-button-success mr-2"
+                  (click)="editarJogador(jogador)"></button>
+          <button pButton pRipple icon="pi pi-trash" title="Deletar este jogador"
+                  class="p-button-rounded p-button-warning"
+                  (click)="deletarJogador(jogador)"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog [(visible)]="jogadorDialog" [style]="{width: '450px'}"
+          header="Detalher do Jogador" [modal]="true" styleClass="fluid">
+  <ng-template pTemplate="content">
+    <img [src]="jogador.carro.foto" [alt]="jogador.nickname" *ngIf="jogador.carro">
+    <div class="p-field">
+      <label for="name">Nick</label>
+      <input type="text" pInputText id="name" [(ngModel)]="jogador.nickname" required autofocus/>
+      <small class="p-invalid" *ngIf="enviado && !jogador.nickname">Nick é obrigatorio.</small>
+    </div>
+
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="price">Saldo</label>
+        <p-inputNumber id="price" [(ngModel)]="jogador.saldo" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveJogador()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

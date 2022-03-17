@@ -1,0 +1,36 @@
+<div class="grid list-card">
+  <div class="col-3 p-md-4" *ngFor="let carro of carros">
+    <p-card header="{{carro.nome}}" styleClass="shadow-6" [style]="{'border': '1px solid  #0000004a'}">
+      <p-header>
+        <img [src]="sanitizerImg(carro.foto)" [alt]="carro.nome" width="80" class="shadow-4 img-card"/>
+      </p-header>
+
+      <h2 pTooltip="Preço" tooltipPosition="top"><i class="fa fa-money"></i> {{carro.preco}} </h2>
+      <div class="grid text-center">
+        <div class="col-6">
+          <div class="col-12">
+            <div pTooltip="Velocidade" tooltipPosition="top">
+              <h2><i class="fa fa-tachometer"></i> {{carro.velocidade}} </h2>
+            </div>
+            <div pTooltip="Aceleração" tooltipPosition="top">
+              <h2><i class="fa fa-bolt"></i> {{carro.aceleracao}} </h2>
+            </div>
+            <div pTooltip="Torque" tooltipPosition="top">
+              <h2><i class="fa fa-cogs"></i> {{carro.torque}} </h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="col-12">
+            <div pTooltip="Controle" tooltipPosition="top">
+              <h2><i class="fa fa-gamepad"></i> {{carro.controle}} </h2>
+            </div>
+            <div pTooltip="Drift" tooltipPosition="top">
+              <h2><i class="fa fa-automobile"></i> {{carro.drift}} </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.list-card {
+  height: 100vh;
+  padding: 10rem;
+}
+
+::ng-deep .list-card .p-card .p-card-body{
+
+  padding: 0.9rem !important;
+
+}
+::ng-deep .list-card .p-card .p-card-content{
+
+  padding: 0 !important;
+
+}
+::ng-deep .list-card  h2 {
+  margin: 10px 5px;
+}
+
+.img-card {
+  padding: 0.3rem
+}
